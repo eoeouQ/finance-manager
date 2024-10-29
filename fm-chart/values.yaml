@@ -3,10 +3,10 @@ postgresql_db:
   inner_port: 5432
   external_port: 5432
   secrets:
-    hostname: "postgres"
-    db: "postgres"
-    username: "postgres"
-    password: "postgres"
+    hostname: ""
+    db: ""
+    username: ""
+    password: ""
   deployment:
     replicas: 1
     image: "postgres:latest"
@@ -71,6 +71,14 @@ notification:
     replicas: 3
     image: "izouir/fm-notification:1.0"
     restartPolicy: Always
+  secrets:
+    smtp:
+      username: ""
+      password: ""
+    twilio:
+      account_sid: ""
+      auth_token: ""
+      phone_number: ""
 
 gateway:
   name: "gateway"

@@ -25,4 +25,29 @@ spec:
               value: {{ .Values.config.inner_port }}
             - name: KAFKA_PORT
               value: {{ .Values.kafka.inner_port }}
+            - name: MAIL_SMTP_USERNAME
+              valueFrom:
+                secretKeyRef:
+                  name: {{ .Values.notification.name }}
+                  key: smtp_username
+            - name: MAIL_SMTP_PASSWORD
+              valueFrom:
+                secretKeyRef:
+                  name: {{ .Values.notification.name }}
+                  key: smtp_password
+            - name: TWILIO_ACCOUNT_SID
+              valueFrom:
+                secretKeyRef:
+                  name: {{ .Values.notification.name }}
+                  key: twilio_account_sid
+            - name: TWILIO_AUTH_TOKEN
+              valueFrom:
+                secretKeyRef:
+                  name: {{ .Values.notification.name }}
+                  key: twilio_auth_token
+            - name: TWILIO_PHONE_NUMBER
+              valueFrom:
+                secretKeyRef:
+                  name: {{ .Values.notification.name }}
+                  key: twilio_phone_number
       restartPolicy: {{ .Values.notification.deployment.restartPolicy }}
