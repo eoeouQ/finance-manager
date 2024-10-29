@@ -5,6 +5,7 @@ import lombok.RequiredArgsConstructor;
 import org.izouir.notificationservice.dto.LimitationNotificationDto;
 import org.izouir.notificationservice.service.LimitationListenerService;
 import org.izouir.notificationservice.service.MailService;
+import org.izouir.notificationservice.service.SmsService;
 import org.springframework.kafka.annotation.KafkaListener;
 import org.springframework.stereotype.Service;
 
@@ -12,6 +13,7 @@ import org.springframework.stereotype.Service;
 @RequiredArgsConstructor
 public class LimitationListenerServiceImpl implements LimitationListenerService {
     private final MailService mailService;
+    private final SmsService smsService;
 
     private static final String LIMITATION_NOTIFICATION_SUBJECT = "Limitation reached!";
     private static final String LIMITATION_NOTIFICATION_MESSAGE = "You have reached limitation - %s$! Overrun - %s$!";
@@ -24,7 +26,8 @@ public class LimitationListenerServiceImpl implements LimitationListenerService 
         final var overrun = dto.getLimitation().getAmount().subtract(dto.getLimitation().getSpent());
         final var text = String.format(LIMITATION_NOTIFICATION_MESSAGE, dto.getLimitation().getAmount(), overrun);
 
-        // TODO: add SMS, Push notifications
+        // TODO: add Push notifications
         mailService.sendNotification(dto.getEmail(), LIMITATION_NOTIFICATION_SUBJECT, text);
+        smsService.sendNotification(dto.getPhone(), text);
     }
 }

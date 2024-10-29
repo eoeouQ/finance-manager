@@ -36,6 +36,10 @@ dependencies {
     implementation("jakarta.mail:jakarta.mail-api:2.1.3")
     implementation("org.eclipse.angus:jakarta.mail:2.0.3")
 
+    // SMS
+    implementation("com.twilio.sdk:twilio:10.6.2")
+    implementation("org.json:json:20240303")
+
     // Test
     testImplementation("org.springframework.boot:spring-boot-starter-test")
     testRuntimeOnly("org.junit.platform:junit-platform-launcher")

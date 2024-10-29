@@ -5,6 +5,7 @@ import lombok.RequiredArgsConstructor;
 import org.izouir.notificationservice.dto.GoalNotificationDto;
 import org.izouir.notificationservice.service.GoalListenerService;
 import org.izouir.notificationservice.service.MailService;
+import org.izouir.notificationservice.service.SmsService;
 import org.springframework.kafka.annotation.KafkaListener;
 import org.springframework.stereotype.Service;
 
@@ -12,6 +13,7 @@ import org.springframework.stereotype.Service;
 @RequiredArgsConstructor
 public class GoalListenerServiceImpl implements GoalListenerService {
     private final MailService mailService;
+    private final SmsService smsService;
 
     private static final String GOAL_NOTIFICATION_SUBJECT = "Goal completed!";
     private static final String GOAL_NOTIFICATION_MESSAGE = "You have completed goal - %s$!";
@@ -23,7 +25,8 @@ public class GoalListenerServiceImpl implements GoalListenerService {
     public void listen(final GoalNotificationDto dto) throws MessagingException {
         final var text = String.format(GOAL_NOTIFICATION_MESSAGE, dto.getGoal());
 
-        // TODO: add SMS, Push notifications
+        // TODO: add Push notifications
         mailService.sendNotification(dto.getEmail(), GOAL_NOTIFICATION_SUBJECT, text);
+        smsService.sendNotification(dto.getPhone(), text);
     }
 }
