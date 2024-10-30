@@ -1,0 +1,26 @@
+spring:
+  kafka:
+    bootstrap-servers: kafka:${KAFKA_PORT}
+    consumer:
+      group-id: "notification"
+      auto-offset-reset: earliest
+      properties:
+        topic-goal: "goal"
+        topic-limitation: "limitation"
+
+twilio:
+  account:
+    sid: ${TWILIO_ACCOUNT_SID}
+  auth:
+    token: ${TWILIO_AUTH_TOKEN}
+  phone:
+    number: ${TWILIO_PHONE_NUMBER}
+
+eureka:
+  client:
+    serviceUrl:
+      defaultZone: http://discovery:${DISCOVERY_PORT}/eureka
+
+logging:
+  pattern:
+    console: "%C{1.} [%-5level] %d{HH:mm:ss} - %msg%n"
