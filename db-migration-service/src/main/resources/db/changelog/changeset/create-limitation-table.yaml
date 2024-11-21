@@ -1,0 +1,55 @@
+databaseChangeLog:
+  - changeSet:
+      id: create-limitation
+      author: Timofey Kozlov
+      changes:
+        - createSequence:
+            sequenceName: limitation_sequence
+            dataType: bigint
+        - createTable:
+            tableName: limitation
+            columns:
+              - column:
+                  name: id
+                  type: bigint
+                  defaultValueSequenceNext: limitation_sequence
+                  constraints:
+                    primaryKey: true
+              - column:
+                  name: account_id
+                  type: bigint
+                  constraints:
+                    foreignKeyName: limitation_to_account_id_fk
+                    references: account(id)
+              - column:
+                  name: amount
+                  type: money
+                  constraints:
+                    nullable: false
+                    checkConstraint: amount > 0
+              - column:
+                  name: spent
+                  type: money
+                  defaultValue: "0"
+                  constraints:
+                    nullable: false
+                    checkConstraint: spent >= 0
+              - column:
+                  name: start_date
+                  type: timestamp
+                  defaultValueDate: NOW()
+                  constraints:
+                    nullable: false
+                    checkConstraint: start_date >= NOW()
+              - column:
+                  name: end_date
+                  type: timestamp
+                  constraints:
+                    nullable: false
+                    checkConstraint: end_date > NOW()
+              - column:
+                  name: reached
+                  type: boolean
+                  defaultValueBoolean: false
+                  constraints:
+                    nullable: false
